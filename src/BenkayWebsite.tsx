@@ -1,5 +1,3 @@
-"use client";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,6 +111,7 @@ export default function BenkayWebsite() {
           <img
             src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5"
             alt="Construction site"
+            loading="lazy"
             className="rounded-2xl shadow-xl"
           />
         </div>
@@ -130,6 +129,7 @@ export default function BenkayWebsite() {
                 key={i}
                 src={`https://source.unsplash.com/600x400/?construction,building&sig=${i}`}
                 alt={`Construction project ${i}`}
+                loading="lazy"
                 className="rounded-2xl shadow-lg hover:scale-105 transition"
               />
             ))}
