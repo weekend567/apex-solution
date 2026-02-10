@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Oheneba Art Gallery - Discover and buy exceptional African portrait art with local and international checkout options."
+    />
+    <title>Oheneba Art Gallery | Premium Art Store</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+
+    <header class="site-header">
+      <a href="#home" class="brand">
+        <span class="brand-mark">OA</span>
+        <span>
+          <strong>Oheneba</strong>
+          <small>Art Gallery</small>
+        </span>
+      </a>
+
+      <nav class="site-nav">
+        <a href="#gallery">Gallery</a>
+        <a href="#commission">Commissions</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="header-actions">
+        <label class="currency-switch" for="currency-select">
+          <span>Currency</span>
+          <select id="currency-select">
+            <option value="GHS">GHS (Local)</option>
+            <option value="USD">USD (International)</option>
+          </select>
+        </label>
+        <button class="cart-button" id="open-cart-btn" type="button">
+          Cart <span id="cart-count">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">Curated African Portrait Masterpieces</p>
+          <h1>Own timeless expression from Oheneba Art Gallery.</h1>
+          <p class="hero-text">
+            Shop captivating portraits and cultural works with seamless checkout
+            for local and international collectors. Pay securely with Mobile
+            Money, Visa, and Mastercard.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#gallery">Shop Artworks</a>
+            <a class="btn ghost" href="#commission">Request Commission</a>
+          </div>
+          <div class="payment-strip">
+            <span>Accepted:</span>
+            <span class="badge">Mobile Money</span>
+            <span class="badge">Visa</span>
+            <span class="badge">Mastercard</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <article class="hero-card large">
+            <img
+              src="./assets/images/oheneba-child-portrait.jpg"
+              alt="Featured child portrait painting"
+              class="art-image"
+              data-fallback-title="Child Portrait"
+            />
+          </article>
+          <div class="hero-side-cards">
+            <article class="hero-card">
+              <img
+                src="./assets/images/oheneba-kente-portrait.jpg"
+                alt="Traditional portrait painting"
+                class="art-image"
+                data-fallback-title="Traditional Portrait"
+              />
+            </article>
+            <article class="hero-card">
+              <img
+                src="./assets/images/oheneba-lady-green-finish.jpg"
+                alt="Contemporary portrait painting"
+                class="art-image"
+                data-fallback-title="Contemporary Portrait"
+              />
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="metrics">
+        <article>
+          <h2>150+</h2>
+          <p>Paintings sold worldwide</p>
+        </article>
+        <article>
+          <h2>4.9/5</h2>
+          <p>Collector satisfaction rating</p>
+        </article>
+        <article>
+          <h2>24/7</h2>
+          <p>Secure checkout support</p>
+        </article>
+      </section>
+
+      <section class="section" id="gallery">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Shop Collection</p>
+            <h2>Featured Artworks</h2>
+          </div>
+          <div class="controls">
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Search artwork title or artist..."
+            />
+            <select id="category-select">
+              <option value="all">All Categories</option>
+              <option value="portrait">Portrait</option>
+              <option value="heritage">Heritage</option>
+              <option value="contemporary">Contemporary</option>
+            </select>
+          </div>
+        </div>
+        <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="section commission" id="commission">
+        <div class="commission-copy">
+          <p class="eyebrow">Bespoke Artwork</p>
+          <h2>Commission a Personal Portrait</h2>
+          <p>
+            Turn your story into collectible art. We take custom portrait
+            requests for families, milestones, and legacy gifts.
+          </p>
+          <ul>
+            <li>One-on-one concept consultation</li>
+            <li>Proofing and approval before final delivery</li>
+            <li>Worldwide shipping support</li>
+          </ul>
+        </div>
+        <form class="commission-form">
+          <h3>Start your request</h3>
+          <label>
+            Full Name
+            <input type="text" placeholder="Your full name" />
+          </label>
+          <label>
+            Email
+            <input type="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            Budget Range
+            <select>
+              <option>GHS 2,500 - 4,000</option>
+              <option>GHS 4,000 - 7,000</option>
+              <option>GHS 7,000+</option>
+            </select>
+          </label>
+          <button type="button" class="btn primary">Send Request</button>
+        </form>
+      </section>
+
+      <section class="section about" id="about">
+        <div>
+          <p class="eyebrow">Our Story</p>
+          <h2>Where heritage meets contemporary excellence.</h2>
+        </div>
+        <p>
+          Oheneba Art Gallery celebrates African identity through premium
+          portraiture. Every piece is curated for meaning, craftsmanship, and
+          collectibility.
+        </p>
+      </section>
+    </main>
+
+    <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button id="close-cart-btn" class="icon-btn" type="button">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div>
+          <p>Subtotal</p>
+          <h3 id="cart-subtotal">GHS 0.00</h3>
+        </div>
+        <button id="checkout-btn" class="btn primary" type="button">
+          Proceed to Checkout
+        </button>
+      </div>
+    </aside>
+
+    <div class="overlay" id="overlay" hidden></div>
+
+    <section class="checkout-modal" id="checkout-modal" aria-hidden="true">
+      <div class="checkout-content">
+        <div class="checkout-header">
+          <h2>Secure Checkout</h2>
+          <button id="close-checkout-btn" class="icon-btn" type="button">✕</button>
+        </div>
+        <form id="checkout-form">
+          <div class="checkout-layout">
+            <div class="form-block">
+              <h3>Customer Details</h3>
+              <label>
+                Full Name
+                <input id="customer-name" type="text" required />
+              </label>
+              <label>
+                Email
+                <input id="customer-email" type="email" required />
+              </label>
+              <label>
+                Phone Number
+                <input id="customer-phone" type="tel" required />
+              </label>
+              <label>
+                Delivery Address
+                <textarea id="customer-address" rows="3" required></textarea>
+              </label>
+              <label>
+                Country
+                <select id="customer-country" required>
+                  <option value="Ghana">Ghana</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="United States">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-block">
+              <h3>Payment Method</h3>
+              <div class="payment-options">
+                <label>
+                  <input type="radio" name="payment" value="mobile-money" checked />
+                  Mobile Money
+                </label>
+                <label>
+                  <input type="radio" name="payment" value="visa" />
+                  Visa Card
+                </label>
+                <label>
+                  <input type="radio" name="payment" value="mastercard" />
+                  Mastercard
+                </label>
+              </div>
+
+              <div id="mobile-money-fields" class="method-fields">
+                <label>
+                  Network
+                  <select id="momo-network">
+                    <option>MTN Mobile Money</option>
+                    <option>Vodafone Cash</option>
+                    <option>AirtelTigo Money</option>
+                  </select>
+                </label>
+                <label>
+                  Mobile Money Number
+                  <input id="momo-number" type="tel" placeholder="+233..." />
+                </label>
+              </div>
+
+              <div id="card-fields" class="method-fields hidden">
+                <label>
+                  Card Holder Name
+                  <input id="card-holder" type="text" placeholder="Name on card" />
+                </label>
+                <label>
+                  Card Number
+                  <input
+                    id="card-number"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="1234 5678 9012 3456"
+                  />
+                </label>
+                <div class="field-row">
+                  <label>
+                    Expiry
+                    <input id="card-expiry" type="text" placeholder="MM/YY" />
+                  </label>
+                  <label>
+                    CVV
+                    <input id="card-cvv" type="password" maxlength="4" placeholder="123" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <ul id="checkout-summary"></ul>
+            <div class="summary-row">
+              <span>Total</span>
+              <strong id="checkout-total">GHS 0.00</strong>
+            </div>
+            <p class="summary-note">
+              This storefront is ready for gateway integration. Connect
+              Flutterwave, Paystack, or Stripe for live payment processing.
+            </p>
+          </div>
+
+          <button class="btn primary full" type="submit">Complete Payment</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Oheneba Art Gallery. All rights reserved.</p>
+      <p>Accra, Ghana · Serving local and international collectors.</p>
+    </footer>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
