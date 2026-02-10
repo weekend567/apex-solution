@@ -19,4 +19,4 @@ npm run build
 
 After GitHub Actions deployment completes, the site is available at:
 
-https://weekend567.github.io/apex-solution/
+https://raw.githack.com/weekend567/apex-solution/site-preview/index.html

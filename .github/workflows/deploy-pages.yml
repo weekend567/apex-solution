@@ -1,4 +1,4 @@
-name: Deploy website to GitHub Pages
+name: Build and publish website preview
 
 on:
   push:
@@ -8,16 +8,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: "pages"
+  group: "site-preview"
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,23 +33,11 @@ jobs:
       - name: Build website
         run: npm run build
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
+      - name: Publish build to preview branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          enablement: true
-
-      - name: Upload build artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: site-preview
+          force_orphan: true
+          commit_message: "deploy preview from ${{ github.sha }}"
