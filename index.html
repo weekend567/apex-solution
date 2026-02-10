@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Oheneba Art Gallery - Discover and buy exceptional African portrait art with local and international checkout options."
+      content="Oheneba Art Gallery ecommerce website. Buy premium portrait paintings with local and international payment options including Mobile Money, Visa, and Mastercard."
     />
-    <title>Oheneba Art Gallery | Premium Art Store</title>
+    <title>Oheneba Art Gallery | Ecommerce Store</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -24,8 +24,10 @@
 
       <nav class="site-nav">
         <a href="#gallery">Gallery</a>
+        <a href="#payments">Payments</a>
         <a href="#commission">Commissions</a>
         <a href="#about">About</a>
+        <a href="#contact">Contact</a>
       </nav>
 
       <div class="header-actions">
@@ -45,16 +47,16 @@
     <main>
       <section class="hero" id="home">
         <div class="hero-copy">
-          <p class="eyebrow">Curated African Portrait Masterpieces</p>
-          <h1>Own timeless expression from Oheneba Art Gallery.</h1>
+          <p class="eyebrow">Premium Portrait Marketplace</p>
+          <h1>Collect timeless African portrait art from Oheneba Art Gallery.</h1>
           <p class="hero-text">
-            Shop captivating portraits and cultural works with seamless checkout
-            for local and international collectors. Pay securely with Mobile
-            Money, Visa, and Mastercard.
+            Discover statement pieces, support African artistry, and checkout
+            securely from anywhere in the world. We support local and
+            international collectors with Mobile Money, Visa, and Mastercard.
           </p>
           <div class="hero-actions">
             <a class="btn primary" href="#gallery">Shop Artworks</a>
-            <a class="btn ghost" href="#commission">Request Commission</a>
+            <a class="btn ghost" href="#payments">View Payment Options</a>
           </div>
           <div class="payment-strip">
             <span>Accepted:</span>
@@ -62,6 +64,10 @@
             <span class="badge">Visa</span>
             <span class="badge">Mastercard</span>
           </div>
+          <p class="hero-subtext">
+            Trusted by collectors in Ghana, Nigeria, the UK, the USA, and
+            beyond.
+          </p>
         </div>
 
         <div class="hero-visual">
@@ -77,7 +83,7 @@
             <article class="hero-card">
               <img
                 src="./assets/images/oheneba-kente-portrait.jpg"
-                alt="Traditional portrait painting"
+                alt="Traditional portrait painting in patterned cloth"
                 class="art-image"
                 data-fallback-title="Traditional Portrait"
               />
@@ -85,7 +91,7 @@
             <article class="hero-card">
               <img
                 src="./assets/images/oheneba-lady-green-finish.jpg"
-                alt="Contemporary portrait painting"
+                alt="Contemporary portrait painting in green headwrap"
                 class="art-image"
                 data-fallback-title="Contemporary Portrait"
               />
@@ -97,16 +103,52 @@
       <section class="metrics">
         <article>
           <h2>150+</h2>
-          <p>Paintings sold worldwide</p>
+          <p>Original paintings sold</p>
         </article>
         <article>
           <h2>4.9/5</h2>
-          <p>Collector satisfaction rating</p>
+          <p>Average collector rating</p>
+        </article>
+        <article>
+          <h2>20+</h2>
+          <p>Countries reached globally</p>
         </article>
         <article>
           <h2>24/7</h2>
-          <p>Secure checkout support</p>
+          <p>Secure payment support</p>
         </article>
+      </section>
+
+      <section class="section trust">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Why Collect Here</p>
+            <h2>Built for serious local and international buyers</h2>
+          </div>
+        </div>
+        <div class="trust-grid">
+          <article class="trust-card">
+            <h3>Curated Originals</h3>
+            <p>
+              Each artwork is carefully selected for emotional depth, technical
+              quality, and long-term collector value.
+            </p>
+          </article>
+          <article class="trust-card">
+            <h3>Secure Checkout</h3>
+            <p>
+              Checkout supports Mobile Money for local buyers and Visa or
+              Mastercard for international purchases.
+            </p>
+          </article>
+          <article class="trust-card">
+            <h3>Worldwide Shipping</h3>
+            <p>
+              We assist with framing, protective packaging, and shipping to your
+              destination.
+            </p>
+          </article>
+        </div>
       </section>
 
       <section class="section" id="gallery">
@@ -132,18 +174,62 @@
         <div class="product-grid" id="product-grid" aria-live="polite"></div>
       </section>
 
+      <section class="section payments" id="payments">
+        <div class="payments-copy">
+          <p class="eyebrow">Payment & Delivery</p>
+          <h2>Flexible checkout for local and international collectors</h2>
+          <p>
+            At checkout, choose your preferred method and complete payment in
+            your selected currency. The store supports local collectors in Ghana
+            and international collectors worldwide.
+          </p>
+          <div class="payment-strip">
+            <span class="badge">MTN / Vodafone / AirtelTigo MoMo</span>
+            <span class="badge">Visa</span>
+            <span class="badge">Mastercard</span>
+          </div>
+          <p class="gateway-status" id="gateway-status">
+            Checking payment gateway configuration...
+          </p>
+        </div>
+        <div class="payments-panels">
+          <article class="payments-panel">
+            <h3>Local Checkout (GHS)</h3>
+            <p>
+              Best for buyers in Ghana using Mobile Money and local card
+              payments.
+            </p>
+          </article>
+          <article class="payments-panel">
+            <h3>International Checkout (USD)</h3>
+            <p>
+              Switch currency to USD and pay securely from abroad with
+              Visa/Mastercard.
+            </p>
+          </article>
+          <article class="payments-panel">
+            <h3>Need manual assistance?</h3>
+            <p>
+              Our team can help with custom invoicing, shipping quotes, and
+              high-value orders.
+            </p>
+            <a class="btn ghost" href="#contact">Talk to gallery support</a>
+          </article>
+        </div>
+      </section>
+
       <section class="section commission" id="commission">
         <div class="commission-copy">
           <p class="eyebrow">Bespoke Artwork</p>
           <h2>Commission a Personal Portrait</h2>
           <p>
-            Turn your story into collectible art. We take custom portrait
-            requests for families, milestones, and legacy gifts.
+            Turn your story into collectible art. We handle custom portrait
+            requests for families, milestones, institutions, and legacy gifts.
           </p>
           <ul>
-            <li>One-on-one concept consultation</li>
-            <li>Proofing and approval before final delivery</li>
-            <li>Worldwide shipping support</li>
+            <li>One-on-one creative consultation</li>
+            <li>Concept proofing before final execution</li>
+            <li>Packaging and international delivery support</li>
           </ul>
         </div>
         <form class="commission-form">
@@ -171,13 +257,48 @@
       <section class="section about" id="about">
         <div>
           <p class="eyebrow">Our Story</p>
-          <h2>Where heritage meets contemporary excellence.</h2>
+          <h2>Where heritage, memory, and modern portraiture meet.</h2>
         </div>
         <p>
           Oheneba Art Gallery celebrates African identity through premium
-          portraiture. Every piece is curated for meaning, craftsmanship, and
-          collectibility.
+          portraiture. Each piece is curated for craftsmanship, emotional
+          resonance, and cultural significance.
         </p>
+      </section>
+
+      <section class="section contact" id="contact">
+        <article class="contact-card contact-main">
+          <p class="eyebrow">Collector Support</p>
+          <h2>Need help before you purchase?</h2>
+          <p>
+            Reach the gallery team for payment support, shipping options, and
+            private viewing requests.
+          </p>
+          <div class="contact-links">
+            <a
+              id="support-email-link"
+              href="mailto:sales@ohenebaartgallery.com"
+            >
+              sales@ohenebaartgallery.com
+            </a>
+            <a id="support-phone-link" href="tel:+233200000000">
+              +233 20 000 0000
+            </a>
+            <a id="support-whatsapp-link" href="#" target="_blank" rel="noreferrer">
+              Chat on WhatsApp
+            </a>
+          </div>
+        </article>
+
+        <form class="contact-card newsletter-form">
+          <h3>Get new arrivals first</h3>
+          <p>Receive updates when fresh artworks are added to the store.</p>
+          <label>
+            Email Address
+            <input type="email" placeholder="you@example.com" />
+          </label>
+          <button type="button" class="btn primary">Subscribe</button>
+        </form>
       </section>
     </main>
 
@@ -256,6 +377,10 @@
                 </label>
               </div>
 
+              <p class="payment-helper" id="payment-helper">
+                Mobile Money is recommended for local checkout.
+              </p>
+
               <div id="mobile-money-fields" class="method-fields">
                 <label>
                   Network
@@ -306,9 +431,9 @@
               <span>Total</span>
               <strong id="checkout-total">GHS 0.00</strong>
             </div>
-            <p class="summary-note">
-              This storefront is ready for gateway integration. Connect
-              Flutterwave, Paystack, or Stripe for live payment processing.
+            <p class="summary-note" id="summary-note">
+              Live payments are available when Paystack key is configured. Until
+              then, checkout runs in demo mode.
             </p>
           </div>
 
@@ -324,6 +449,8 @@
       <p>Accra, Ghana · Serving local and international collectors.</p>
     </footer>
 
+    <script src="./site-config.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script src="./script.js" defer></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-const products = [
+const DEFAULT_PRODUCTS = [
   {
     id: "art-001",
     title: "Innocent Gaze",
@@ -46,7 +46,25 @@ const products = [
   },
 ];
 
-const USD_RATE = 13.2;
+const DEFAULT_CONFIG = {
+  galleryName: "Oheneba Art Gallery",
+  supportEmail: "sales@ohenebaartgallery.com",
+  supportPhone: "+233 20 000 0000",
+  whatsappNumber: "233200000000",
+  usdRate: 13.2,
+  paystackPublicKey: "",
+};
+
+const config = {
+  ...DEFAULT_CONFIG,
+  ...(window.OHENEBA_CONFIG || {}),
+};
+
+const products = Array.isArray(window.OHENEBA_PRODUCTS) && window.OHENEBA_PRODUCTS.length
+  ? window.OHENEBA_PRODUCTS
+  : DEFAULT_PRODUCTS;
+
+const USD_RATE = Number(config.usdRate) > 0 ? Number(config.usdRate) : DEFAULT_CONFIG.usdRate;
 const STORAGE_KEYS = {
   cart: "oheneba-art-gallery-cart",
   currency: "oheneba-art-gallery-currency",
@@ -80,6 +98,12 @@ const cardExpiryInput = document.getElementById("card-expiry");
 const cardCvvInput = document.getElementById("card-cvv");
 const cardHolderInput = document.getElementById("card-holder");
 const momoNumberInput = document.getElementById("momo-number");
+const paymentHelperEl = document.getElementById("payment-helper");
+const gatewayStatusEl = document.getElementById("gateway-status");
+const summaryNoteEl = document.getElementById("summary-note");
+const supportEmailLink = document.getElementById("support-email-link");
+const supportPhoneLink = document.getElementById("support-phone-link");
+const supportWhatsAppLink = document.getElementById("support-whatsapp-link");
 
 function saveState() {
   localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(cart));
@@ -88,6 +112,7 @@ function saveState() {
 
 function createImageFallback(title, width = 600, height = 450) {
   const safeTitle = String(title).replace(/[<>&"']/g, "");
+  const safeGalleryName = String(config.galleryName).replace(/[<>&"']/g, "");
   const svg = `
 <svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' viewBox='0 0 ${width} ${height}'>
   <defs>
@@ -102,7 +127,7 @@ function createImageFallback(title, width = 600, height = 450) {
     ${safeTitle}
   </text>
   <text x='50%' y='68%' fill='#bdb7aa' font-family='Arial, sans-serif' font-size='18' text-anchor='middle'>
-    Oheneba Art Gallery
+    ${safeGalleryName}
   </text>
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -143,6 +168,15 @@ function formatPrice(priceGHS) {
   }).format(priceGHS);
 }
 
+function toGatewayAmount(totalGHS) {
+  const amount = currency === "USD" ? totalGHS / USD_RATE : totalGHS;
+  return Math.round(amount * 100);
+}
+
+function getGatewayCurrency() {
+  return currency === "USD" ? "USD" : "GHS";
+}
+
 function getProductById(id) {
   return products.find((product) => product.id === id);
 }
@@ -159,6 +193,40 @@ function cartSubtotal() {
     }
     return total + product.priceGHS * item.quantity;
   }, 0);
+}
+
+function readableMethod(method) {
+  if (method === "mobile-money") {
+    return "Mobile Money";
+  }
+  if (method === "visa") {
+    return "Visa";
+  }
+  return "Mastercard";
+}
+
+function isLiveGatewayReady() {
+  const hasKey = typeof config.paystackPublicKey === "string" && config.paystackPublicKey.trim();
+  const hasSDK = typeof window.PaystackPop !== "undefined" && typeof window.PaystackPop.setup === "function";
+  return Boolean(hasKey && hasSDK);
+}
+
+function updateGatewayStatusUI() {
+  const liveMode = isLiveGatewayReady();
+
+  if (gatewayStatusEl) {
+    gatewayStatusEl.classList.remove("live", "demo");
+    gatewayStatusEl.classList.add(liveMode ? "live" : "demo");
+    gatewayStatusEl.textContent = liveMode
+      ? "Live payments enabled (Paystack configured)."
+      : "Demo mode active. Add your Paystack public key in site-config.js to accept live payments.";
+  }
+
+  if (summaryNoteEl) {
+    summaryNoteEl.textContent = liveMode
+      ? "Live payment is enabled. Card and Mobile Money charges are processed securely through Paystack."
+      : "Demo mode is active. Add your Paystack key in site-config.js for live checkout.";
+  }
 }
 
 function renderProducts() {
@@ -255,6 +323,7 @@ function removeFromCart(productId) {
 
 function renderCart() {
   cartCountEl.textContent = String(cartTotalCount());
+  checkoutBtn.disabled = cart.length === 0;
 
   if (!cart.length) {
     cartItemsEl.innerHTML = `
@@ -331,7 +400,7 @@ function showToast(message) {
   window.clearTimeout(showToast.timeoutId);
   showToast.timeoutId = window.setTimeout(() => {
     toast.classList.remove("show");
-  }, 2200);
+  }, 2400);
 }
 
 function syncOverlay() {
@@ -385,6 +454,16 @@ function updatePaymentFields() {
   cardNumberInput.required = !isMobileMoney;
   cardExpiryInput.required = !isMobileMoney;
   cardCvvInput.required = !isMobileMoney;
+
+  if (paymentHelperEl) {
+    if (method === "mobile-money") {
+      paymentHelperEl.textContent = "Enter your Mobile Money number to receive the payment prompt.";
+    } else if (method === "visa") {
+      paymentHelperEl.textContent = "Visa card payments are processed in a secure card checkout window.";
+    } else {
+      paymentHelperEl.textContent = "Mastercard payments are processed in a secure card checkout window.";
+    }
+  }
 }
 
 function formatCardNumber(value) {
@@ -400,6 +479,142 @@ function formatCardExpiry(value) {
   return `${digits.slice(0, 2)}/${digits.slice(2)}`;
 }
 
+function configureSupportLinks() {
+  const email = String(config.supportEmail || "").trim();
+  const phone = String(config.supportPhone || "").trim();
+  const whatsappNumber = String(config.whatsappNumber || "")
+    .replace(/\s+/g, "")
+    .replace(/[^\d]/g, "");
+
+  if (supportEmailLink && email) {
+    supportEmailLink.textContent = email;
+    supportEmailLink.setAttribute("href", `mailto:${email}`);
+  }
+
+  if (supportPhoneLink && phone) {
+    const telSafe = phone.replace(/\s+/g, "");
+    supportPhoneLink.textContent = phone;
+    supportPhoneLink.setAttribute("href", `tel:${telSafe}`);
+  }
+
+  if (supportWhatsAppLink) {
+    if (whatsappNumber) {
+      const text = encodeURIComponent(
+        `Hello ${config.galleryName}, I need assistance with an artwork purchase.`,
+      );
+      supportWhatsAppLink.setAttribute(
+        "href",
+        `https://wa.me/${whatsappNumber}?text=${text}`,
+      );
+    } else {
+      supportWhatsAppLink.setAttribute("href", "#contact");
+    }
+  }
+}
+
+function resetAfterSuccessfulPayment() {
+  cart = [];
+  saveState();
+  renderCart();
+  updateCheckoutSummary();
+  checkoutForm.reset();
+  document.querySelector('input[name="payment"][value="mobile-money"]').checked = true;
+  updatePaymentFields();
+  closeCheckout();
+}
+
+function buildOrderPayload(paymentMethod) {
+  return {
+    orderId: `OHN-${Date.now().toString().slice(-7)}`,
+    currency,
+    totalGHS: cartSubtotal(),
+    paymentMethod,
+    items: cart.map((item) => {
+      const product = getProductById(item.id);
+      return {
+        id: item.id,
+        quantity: item.quantity,
+        title: product ? product.title : "Artwork",
+      };
+    }),
+    customer: {
+      name: String(document.getElementById("customer-name").value || "").trim(),
+      email: String(document.getElementById("customer-email").value || "").trim(),
+      phone: String(document.getElementById("customer-phone").value || "").trim(),
+      address: String(document.getElementById("customer-address").value || "").trim(),
+      country: String(document.getElementById("customer-country").value || "").trim(),
+      momoNetwork: String(document.getElementById("momo-network").value || "").trim(),
+      momoNumber: String(document.getElementById("momo-number").value || "").trim(),
+    },
+  };
+}
+
+function paystackChannelsFor(method) {
+  return method === "mobile-money" ? ["mobile_money"] : ["card"];
+}
+
+function launchPaystack(order) {
+  const key = String(config.paystackPublicKey || "").trim();
+  if (!key || !isLiveGatewayReady()) {
+    return false;
+  }
+
+  const amount = toGatewayAmount(order.totalGHS);
+  if (amount <= 0) {
+    showToast("Order amount is invalid.");
+    return true;
+  }
+
+  const handler = window.PaystackPop.setup({
+    key,
+    email: order.customer.email,
+    amount,
+    currency: getGatewayCurrency(),
+    ref: order.orderId,
+    channels: paystackChannelsFor(order.paymentMethod),
+    label: config.galleryName,
+    metadata: {
+      customer_name: order.customer.name,
+      custom_fields: [
+        {
+          display_name: "Phone",
+          variable_name: "phone",
+          value: order.customer.phone,
+        },
+        {
+          display_name: "Delivery Country",
+          variable_name: "country",
+          value: order.customer.country,
+        },
+        {
+          display_name: "Payment Method",
+          variable_name: "method",
+          value: readableMethod(order.paymentMethod),
+        },
+      ],
+    },
+    callback(response) {
+      resetAfterSuccessfulPayment();
+      showToast(
+        `Payment successful via ${readableMethod(order.paymentMethod)}. Reference: ${response.reference}`,
+      );
+    },
+    onClose() {
+      showToast("Payment window closed. You can continue checkout anytime.");
+    },
+  });
+
+  handler.openIframe();
+  return true;
+}
+
+function runDemoCheckout(order) {
+  resetAfterSuccessfulPayment();
+  showToast(
+    `Demo payment completed via ${readableMethod(order.paymentMethod)}. Order ${order.orderId} created.`,
+  );
+}
+
 function setupEventListeners() {
   searchInput.addEventListener("input", renderProducts);
   categorySelect.addEventListener("change", renderProducts);
@@ -411,6 +626,7 @@ function setupEventListeners() {
     renderProducts();
     renderCart();
     updateCheckoutSummary();
+    updateGatewayStatusUI();
   });
 
   productGrid.addEventListener("click", (event) => {
@@ -489,25 +705,38 @@ function setupEventListeners() {
       return;
     }
 
-    const method = selectedPaymentMethod();
-    const readableMethod =
-      method === "mobile-money" ? "Mobile Money" : method === "visa" ? "Visa" : "Mastercard";
-    const orderId = `OHN-${Date.now().toString().slice(-6)}`;
+    if (!checkoutForm.reportValidity()) {
+      return;
+    }
 
-    cart = [];
-    saveState();
-    renderCart();
-    updateCheckoutSummary();
-    checkoutForm.reset();
-    document.querySelector('input[name="payment"][value="mobile-money"]').checked = true;
-    updatePaymentFields();
-    closeCheckout();
-    showToast(`Payment initiated via ${readableMethod}. Order ${orderId} created.`);
+    const method = selectedPaymentMethod();
+    const order = buildOrderPayload(method);
+    const launchedLive = launchPaystack(order);
+
+    if (!launchedLive) {
+      runDemoCheckout(order);
+    }
   });
+
+  const commissionButton = document.querySelector(".commission-form .btn");
+  if (commissionButton) {
+    commissionButton.addEventListener("click", () => {
+      showToast("Commission request draft captured. Connect a form service for live submissions.");
+    });
+  }
+
+  const newsletterButton = document.querySelector(".newsletter-form .btn");
+  if (newsletterButton) {
+    newsletterButton.addEventListener("click", () => {
+      showToast("Subscription captured in demo mode.");
+    });
+  }
 }
 
 function init() {
   document.getElementById("year").textContent = String(new Date().getFullYear());
+  configureSupportLinks();
+  updateGatewayStatusUI();
   setupEventListeners();
   renderProducts();
   renderCart();

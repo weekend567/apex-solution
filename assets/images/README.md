@@ -1,6 +1,6 @@
 # Oheneba Art Gallery Artwork Files
 
-Add your provided portrait images in this folder using the exact names below:
+Place your portrait image files in this folder using these exact names:
 
 1. `oheneba-child-portrait.jpg`
 2. `oheneba-kente-portrait.jpg`
@@ -8,5 +8,6 @@ Add your provided portrait images in this folder using the exact names below:
 4. `oheneba-lady-green-reference.jpg`
 5. `oheneba-lady-green-finish.jpg`
 
-The website is already wired to these paths.  
-If any file is missing, a branded fallback image is shown automatically.
+The website is already wired to these file paths.
+
+If any file is missing, a branded fallback image is shown automatically so the page still looks good.
